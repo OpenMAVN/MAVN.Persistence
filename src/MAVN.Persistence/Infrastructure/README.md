@@ -1,0 +1,1 @@
+See DbContextOptionsBuilder and DbContextOptions for implementation ideas: https://github.com/dotnet/efcore/tree/master/src/EFCore 
