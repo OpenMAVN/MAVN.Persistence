@@ -1,31 +1,31 @@
+using System;
+
 namespace MAVN.Persistence
 {
     public sealed class DbContextSettings
     {
-        public int CommandTimeout { get; }
+        private const int DefaultTimeout = 30;
 
-        public string ConnectionString { get; }
+        private int? _commandTimeout;
+        private string? _connectionString;
+        private string? _schemaName;
 
-        public string SchemaName { get; }
-
-        public DbContextSettings(
-            string schemaName,
-            string connectionString,
-            int commandTimeout)
+        public int CommandTimeout
         {
-            CommandTimeout = commandTimeout;
-            ConnectionString = connectionString;
-            SchemaName = schemaName;
+            get => _commandTimeout ?? DefaultTimeout;
+            set => _commandTimeout = value;
         }
 
-        public void Deconstruct(
-            out int commandTimeout,
-            out string connectionString,
-            out string schemaName)
+        public string ConnectionString
         {
-            commandTimeout = CommandTimeout;
-            connectionString = ConnectionString;
-            schemaName = SchemaName;
+            get => _connectionString ?? throw new InvalidOperationException("DB connection string is not set");
+            set => _connectionString = value;
+        }
+
+        public string SchemaName
+        {
+            get => _schemaName ?? throw new InvalidOperationException("DB schema is not set");;
+            set => _schemaName = value;
         }
     }
 }

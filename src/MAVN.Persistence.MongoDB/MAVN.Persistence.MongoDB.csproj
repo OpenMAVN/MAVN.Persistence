@@ -11,4 +11,8 @@
       <ProjectReference Include="..\MAVN.Persistence.Abstractions\MAVN.Persistence.Abstractions.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Extensions\" />
+    </ItemGroup>
+
 </Project>
