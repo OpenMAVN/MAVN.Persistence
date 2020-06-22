@@ -1,4 +1,3 @@
-using System;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -6,19 +5,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MAVN.Persistence
 {
     [PublicAPI]
-    public sealed class SQLServerProvider : DbContextProviderBase
+    public sealed class PostgreSQLConfigurator : IDbContextOptionsConfigurator
     {
-        public SQLServerProvider(
-            Type dbContextType,
-            DbContextSettings dbContextSettings) : base(dbContextType, dbContextSettings)
-        {
-        }
-
-        protected override void OnPreConfiguring(
+        public void Configure(
             DbContextOptionsBuilder optionsBuilder,
             DbContextSettings dbContextSettings)
         {
-            optionsBuilder.UseSqlServer(dbContextSettings.ConnectionString, options =>
+            optionsBuilder.UseNpgsql(dbContextSettings.ConnectionString, options =>
             {
                 options
                     .MigrationsHistoryTable(HistoryRepository.DefaultTableName, dbContextSettings.SchemaName)

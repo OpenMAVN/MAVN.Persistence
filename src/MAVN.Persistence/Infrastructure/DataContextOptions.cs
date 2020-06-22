@@ -4,6 +4,6 @@ namespace MAVN.Persistence.Infrastructure
 {
     public sealed class DataContextOptions
     {
-        public Type ContextType { get; }
+        public Type DataContextType { get; }
     }
 }

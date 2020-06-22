@@ -3,7 +3,6 @@ using JetBrains.Annotations;
 using MAVN.Persistence.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
-// ReSharper disable once CheckNamespace
 namespace MAVN.Persistence
 {
     [PublicAPI]
@@ -16,9 +15,8 @@ namespace MAVN.Persistence
             throw new NotImplementedException();
         }
 
-        public static DataContextOptionsBuilder UseEntityFramework<TProvider>(
+        public static DataContextOptionsBuilder UseEntityFrameworkInMemory(
             this DataContextOptionsBuilder builder)
-            where TProvider : IDbContextProvider
         {
             throw new NotImplementedException();
         }

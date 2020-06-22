@@ -1,19 +1,12 @@
-using System;
 using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAVN.Persistence
 {
     [PublicAPI]
-    public sealed class InMemoryProvider : DbContextProviderBase
+    public sealed class InMemoryConfigurator : IDbContextOptionsConfigurator
     {
-        public InMemoryProvider(
-            Type dbContextType,
-            DbContextSettings dbContextSettings) : base(dbContextType, dbContextSettings)
-        {
-        }
-
-        protected override void OnPreConfiguring(
+        public void Configure(
             DbContextOptionsBuilder optionsBuilder,
             DbContextSettings dbContextSettings)
         {

@@ -6,7 +6,7 @@ namespace MAVN.Persistence
 {
     internal static class SpecificationEvaluator
     {
-        public static IQueryable<TEntity> Evaluate<TEntity>(
+        internal static IQueryable<TEntity> Evaluate<TEntity>(
             this DbSet<TEntity> dbSet,
             ISpecification<TEntity>? specification)
             where TEntity : class

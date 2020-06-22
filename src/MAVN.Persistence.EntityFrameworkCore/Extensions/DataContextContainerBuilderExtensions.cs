@@ -20,7 +20,7 @@ namespace MAVN.Persistence
             // TODO: Validate DataContextOptions and DRY with Microsoft.Extensions.DependencyInjection
 
             containerBuilder
-                .RegisterType(optionsBuilder.Options.ContextType)
+                .RegisterType(optionsBuilder.Options.DataContextType)
                 .As(typeof(IDataContext));
 
             // TODO: Register additional dependencies from DataContextOptions and DRY with Microsoft.Extensions.DependencyInjection

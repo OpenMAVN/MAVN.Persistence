@@ -1,10 +1,8 @@
 using System;
 using JetBrains.Annotations;
-using MAVN.Persistence;
 using MAVN.Persistence.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-// ReSharper disable once CheckNamespace
 namespace MAVN.Persistence
 {
     [PublicAPI]
@@ -21,7 +19,7 @@ namespace MAVN.Persistence
             // TODO: Validate DataContextOptions and DRY with Autofac
 
             serviceCollection
-                .AddSingleton(typeof(IDataContext), optionsBuilder.Options.ContextType);
+                .AddSingleton(typeof(IDataContext), optionsBuilder.Options.DataContextType);
 
             // TODO: Register additional dependencies from DataContextOptions and DRY with Autofac
 

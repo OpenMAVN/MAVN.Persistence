@@ -4,11 +4,11 @@ namespace MAVN.Persistence.Infrastructure
     {
         private DataContextOptions _options;
 
+        public DataContextOptions Options => _options;
+
         public DataContextOptionsBuilder()
         {
             _options = new DataContextOptions();
         }
-
-        public DataContextOptions Options => _options;
     }
 }
