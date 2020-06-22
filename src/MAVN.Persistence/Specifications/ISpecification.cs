@@ -8,9 +8,9 @@ namespace MAVN.Persistence.Specifications
     public interface ISpecification<T>
     {
         Expression<Func<T, bool>>? Criteria { get; }
-        
+
         Expression<Func<T, object>>? GroupBy { get; }
-        
+
         PaginationExpression? TakePage { get; }
     }
 }

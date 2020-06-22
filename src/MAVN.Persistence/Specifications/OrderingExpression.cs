@@ -7,6 +7,10 @@ namespace MAVN.Persistence.Specifications
     [PublicAPI]
     public sealed class OrderingExpression<T>
     {
+        public OrderingDirection Direction { get; }
+
+        public Expression<Func<T, object>> KeySelector { get; }
+
         public OrderingExpression(
             OrderingDirection direction,
             Expression<Func<T, object>> keySelector)
@@ -14,12 +18,6 @@ namespace MAVN.Persistence.Specifications
             Direction   = direction;
             KeySelector = keySelector;
         }
-
-        
-        public OrderingDirection Direction { get; }
-
-        public Expression<Func<T, object>> KeySelector { get; }
-
 
         public void Deconstruct(
             out OrderingDirection direction,

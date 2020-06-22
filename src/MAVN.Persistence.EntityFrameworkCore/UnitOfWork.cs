@@ -7,14 +7,12 @@ namespace MAVN.Persistence
     {
         private readonly DbContext _dbContext;
 
-        
         internal UnitOfWork(
             DbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        
         public void Dispose()
         {
             _dbContext.Dispose();

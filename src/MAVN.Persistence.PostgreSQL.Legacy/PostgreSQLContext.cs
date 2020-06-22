@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Logging;
 
 namespace MAVN.Persistence.PostgreSQL.Legacy
 {
@@ -20,9 +21,9 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
         private readonly string _schema;
         private readonly bool _isForMocks;
         private readonly int? _commandTimeoutSeconds;
-        private readonly DbConnection _dbConnection;
+        private readonly DbConnection? _dbConnection;
 
-        private string _connectionString;
+        private string? _connectionString;
 
         public bool IsTraceEnabled { set; get; }
 
@@ -99,6 +100,12 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
             if (_isForMocks)
                 return;
 
+            if (IsTraceEnabled)
+            {
+                var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+                optionsBuilder.UseLoggerFactory(loggerFactory);
+            }
+
             if (_dbConnection == null)
             {
                 // Manual connection string entry for migrations.
@@ -126,9 +133,7 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
             }
 
 #pragma warning disable 618
-            
             optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-            
 #pragma warning restore 618
 
             OnMAVNConfiguring(optionsBuilder);
@@ -153,7 +158,7 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
                         .Entity(entityType.Name)
                         .Property(property.Name)
                         .HasConversion(
-                            Attribute.IsDefined(property, typeof(Padding))
+                            Attribute.IsDefined(property, typeof(PaddingAttribute))
                                 ? Money18PaddedConverter.Instance
                                 : (ValueConverter)Money18Converter.Instance);
                 }
@@ -165,7 +170,7 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
                         .Entity(entityType.Name)
                         .Property(property.Name)
                         .HasConversion(
-                            Attribute.IsDefined(property, typeof(Padding))
+                            Attribute.IsDefined(property, typeof(PaddingAttribute))
                             ? NullableMoney18PaddedConverter.Instance
                             : (ValueConverter)NullableMoney18Converter.Instance);
                 }

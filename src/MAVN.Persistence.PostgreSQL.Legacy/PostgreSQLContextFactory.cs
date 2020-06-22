@@ -16,19 +16,17 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
     public class PostgreSQLContextFactory<T> : IDbContextFactory<T>, ITransactionRunner
         where T : DbContext
     {
-        private readonly string _dbConnString;
-        private readonly Func<T> _contextCreator;
-        private readonly Func<string, T> _connStringCreator;
-        private readonly Func<DbConnection, T> _dbConnectionCreator;
+        private readonly string? _dbConnString;
+        private readonly Func<T>? _contextCreator;
+        private readonly Func<string, T>? _connStringCreator;
+        private readonly Func<DbConnection, T>? _dbConnectionCreator;
 
-        [Obsolete("Use other c-tors")]
-        public PostgreSQLContextFactory(Func<T> contextCreator)
+        public PostgreSQLContextFactory(
+            Func<DbContextOptions, T> contextCreator,
+            DbContextOptions contextOptions)
         {
-            _contextCreator = contextCreator;
-        }
-
-        public PostgreSQLContextFactory(Func<DbContextOptions, T> contextCreator, DbContextOptions contextOptions)
-        {
+            if (contextCreator == null)
+                throw new ArgumentNullException(nameof(contextCreator));
             _contextCreator = () => contextCreator(contextOptions);
         }
 

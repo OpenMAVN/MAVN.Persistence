@@ -5,6 +5,12 @@ namespace MAVN.Persistence.Specifications
 {
     public sealed class Specification<T> : Specification, ISpecification<T>
     {
+        public Expression<Func<T, bool>>? Criteria { get; }
+
+        public Expression<Func<T, object>>? GroupBy { get; }
+
+        public PaginationExpression? TakePage { get; }
+
         internal Specification(
             Expression<Func<T, bool>>? criteria,
             Expression<Func<T, object>>? groupBy,
@@ -14,12 +20,5 @@ namespace MAVN.Persistence.Specifications
             GroupBy = groupBy;
             TakePage = takePage;
         }
-        
-        
-        public Expression<Func<T, bool>>? Criteria { get; }
-        
-        public Expression<Func<T, object>>? GroupBy { get; }
-        
-        public PaginationExpression? TakePage { get; }
     }
 }

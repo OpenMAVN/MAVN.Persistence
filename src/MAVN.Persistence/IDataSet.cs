@@ -11,28 +11,28 @@ namespace MAVN.Persistence
     {
         void Add(
             TEntity entity);
-        
+
         void AddRange(
             IEnumerable<TEntity> entities);
-        
+
         Task<bool> ContainsAsync(
             ISpecification<TEntity>? specification = null);
-        
+
         Task<bool> ContainsAsync(
             Expression<Func<TEntity, bool>> predicate);
 
         Task<int> CountAsync(
             ISpecification<TEntity>? specification = null);
-        
+
         Task<int> CountAsync(
             Expression<Func<TEntity, bool>> predicate);
 
         IEnumerable<TEntity> Find(
             ISpecification<TEntity>? specification = null);
-        
+
         void Remove(
             TEntity entity);
-        
+
         void RemoveRange(
             IEnumerable<TEntity> entities);
 

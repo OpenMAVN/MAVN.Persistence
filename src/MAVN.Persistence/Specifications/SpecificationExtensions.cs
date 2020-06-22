@@ -9,7 +9,7 @@ namespace MAVN.Persistence.Specifications
     public static class SpecificationExtensions
     {
         #region Criteria
-        
+
         public static ISpecification<T> Where<T>(
             this ISpecification<T> specification,
             Expression<Func<T, bool>> predicate)
@@ -21,7 +21,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         public static ISpecificationWithOrdering<T> Where<T>(
             this ISpecificationWithOrdering<T> specification,
             Expression<Func<T, bool>> predicate)
@@ -34,7 +34,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         public static ISpecification<T> WhereAny<T>(
             this ISpecification<T> specification)
         {
@@ -45,7 +45,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         public static ISpecificationWithOrdering<T> WhereAny<T>(
             this ISpecificationWithOrdering<T> specification)
         {
@@ -57,11 +57,11 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         #endregion
-        
+
         #region Grouping
-        
+
         public static ISpecification<T> GroupBy<T>(
             this ISpecification<T> specification,
             Expression<Func<T, object>> keySelector)
@@ -73,7 +73,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         public static ISpecificationWithOrdering<T> GroupBy<T>(
             this ISpecificationWithOrdering<T> specification,
             Expression<Func<T, object>> keySelector)
@@ -86,7 +86,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         public static ISpecification<T> WithNoGrouping<T>(
             this ISpecification<T> specification)
         {
@@ -97,7 +97,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         public static ISpecificationWithOrdering<T> WithNoGrouping<T>(
             this ISpecificationWithOrdering<T> specification)
         {
@@ -109,11 +109,11 @@ namespace MAVN.Persistence.Specifications
                 takePage: specification.TakePage
             );
         }
-        
+
         #endregion
-        
+
         #region Ordering
-        
+
         public static ISpecificationWithOrdering<T> OrderByAscending<T>(
             this ISpecification<T> specification,
             Expression<Func<T, object>> keySelector)
@@ -121,7 +121,7 @@ namespace MAVN.Persistence.Specifications
             return specification
                 .OrderBy(OrderingDirection.Ascending, keySelector);
         }
-        
+
         public static ISpecificationWithOrdering<T> OrderByDescending<T>(
             this ISpecification<T> specification,
             Expression<Func<T, object>> keySelector)
@@ -177,9 +177,9 @@ namespace MAVN.Persistence.Specifications
             Expression<Func<T, object>> keySelector)
         {
             var orderBy = specification.OrderBy.ToList();
-            
+
             orderBy.Add(new OrderingExpression<T>(direction, keySelector));
-            
+
             return new SpecificationWithOrdering<T>
             (
                 criteria: specification.Criteria,
@@ -210,21 +210,21 @@ namespace MAVN.Persistence.Specifications
             return specification
                 .TakePage(new PaginationExpression(pageSize, pageNumber));
         }
-        
+
         public static ISpecification<T> TakeAll<T>(
             this ISpecification<T> specification)
         {
             return specification
                 .TakePage(null);
         }
-        
+
         public static ISpecificationWithOrdering<T> TakeAll<T>(
             this ISpecificationWithOrdering<T> specification)
         {
             return specification
                 .TakePage(null);
         }
-        
+
         private static ISpecification<T> TakePage<T>(
             this ISpecification<T> specification,
             PaginationExpression? takePage)
@@ -236,7 +236,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: takePage
             );
         }
-        
+
         private static ISpecificationWithOrdering<T> TakePage<T>(
             this ISpecificationWithOrdering<T> specification,
             PaginationExpression? takePage)
@@ -249,7 +249,7 @@ namespace MAVN.Persistence.Specifications
                 takePage: takePage
             );
         }
-        
+
         #endregion
     }
 }

@@ -9,7 +9,7 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
         /// Cannot insert duplicate key row 
         /// </summary>
         public const int DuplicateIndex = 2601;
-        
+
         /// <summary>
         /// Violation of PRIMARY KEY constraint 
         /// </summary>

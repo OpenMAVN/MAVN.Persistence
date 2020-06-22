@@ -7,6 +7,14 @@ namespace MAVN.Persistence.Specifications
 {
     public sealed class SpecificationWithOrdering<T> : Specification, ISpecificationWithOrdering<T>
     {
+        public Expression<Func<T, bool>>? Criteria { get; }
+
+        public Expression<Func<T, object>>? GroupBy { get; }
+
+        public IReadOnlyList<OrderingExpression<T>> OrderBy { get; }
+
+        public PaginationExpression? TakePage { get; }
+
         internal SpecificationWithOrdering(
             Expression<Func<T, bool>>? criteria,
             Expression<Func<T, object>>? groupBy,
@@ -18,14 +26,5 @@ namespace MAVN.Persistence.Specifications
             OrderBy = orderBy?.ToImmutableArray() ?? ImmutableArray<OrderingExpression<T>>.Empty;
             TakePage = takePage;
         }
-        
-        
-        public Expression<Func<T, bool>>? Criteria { get; }
-        
-        public Expression<Func<T, object>>? GroupBy { get; }
-        
-        public IReadOnlyList<OrderingExpression<T>> OrderBy { get; }
-        
-        public PaginationExpression? TakePage { get; }
     }
 }

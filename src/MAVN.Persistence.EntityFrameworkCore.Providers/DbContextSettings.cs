@@ -2,6 +2,12 @@ namespace MAVN.Persistence
 {
     public sealed class DbContextSettings
     {
+        public int CommandTimeout { get; }
+
+        public string ConnectionString { get; }
+
+        public string SchemaName { get; }
+
         public DbContextSettings(
             string schemaName,
             string connectionString,
@@ -12,14 +18,6 @@ namespace MAVN.Persistence
             SchemaName = schemaName;
         }
 
-        
-        public int CommandTimeout { get; }
-        
-        public string ConnectionString { get; }
-        
-        public string SchemaName { get; }
-        
-        
         public void Deconstruct(
             out int commandTimeout,
             out string connectionString,

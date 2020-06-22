@@ -35,13 +35,13 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
         }
 
         /// <inheritdoc cref="ITransactionRunner"/>
-        public Task<TK> RunWithTransactionAsync<TK>(Func<TransactionContext, Task<TK>> func)
+        public Task<TK> RunWithTransactionAsync<TK>(Func<TransactionContext?, Task<TK>> func)
         {
             return func(null);
         }
 
         /// <inheritdoc cref="ITransactionRunner"/>
-        public Task RunWithTransactionAsync(Func<TransactionContext, Task> action)
+        public Task RunWithTransactionAsync(Func<TransactionContext?, Task> action)
         {
             return action(null);
         }

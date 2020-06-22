@@ -13,7 +13,7 @@ namespace MAVN.Persistence
         {
             throw new NotImplementedException();
         }
-        
+
         public static DataContextOptionsBuilder WithConnectionString(
             this DataContextOptionsBuilder builder,
             string connectionString)

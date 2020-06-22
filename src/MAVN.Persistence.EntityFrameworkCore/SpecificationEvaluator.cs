@@ -9,20 +9,15 @@ namespace MAVN.Persistence
         public static IQueryable<TEntity> Evaluate<TEntity>(
             this DbSet<TEntity> dbSet,
             ISpecification<TEntity>? specification)
-        
             where TEntity : class
-        {   
+        {
             var query = dbSet.AsQueryable();
 
             if (specification == null)
-            {
                 return query;
-            }
-            
+
             if (specification.Criteria != null)
-            {
                 query = query.Where(specification.Criteria);
-            }
 
             if (specification is ISpecificationWithOrdering<TEntity> specificationWithOrdering)
             {
@@ -40,11 +35,10 @@ namespace MAVN.Persistence
                             break;
                         case OrderingDirection.Descending:
                             query = i == 0
-                                ? query.OrderByDescending(keySelector) 
+                                ? query.OrderByDescending(keySelector)
                                 : ((IOrderedQueryable<TEntity>) query).ThenByDescending(keySelector);
                             break;
                     }
-                    
                 }
             }
 

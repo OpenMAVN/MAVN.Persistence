@@ -15,35 +15,35 @@ namespace MAVN.Persistence
         {
             throw new NotImplementedException();
         }
-        
+
         public static DataContextOptionsBuilder UseEntityFramework<TProvider>(
             this DataContextOptionsBuilder builder)
             where TProvider : IDbContextProvider
         {
             throw new NotImplementedException();
         }
-        
+
         public static DataContextOptionsBuilder WithDbContext<TDbContext>(
             this DataContextOptionsBuilder builder)
             where TDbContext : DbContext
         {
             throw new NotImplementedException();
         } 
-        
+
         public static DataContextOptionsBuilder WithCommandTimeout(
             this DataContextOptionsBuilder builder,
             int commandTimeout)
         {
             throw new NotImplementedException();
         }
-        
+
         public static DataContextOptionsBuilder WithConnectionString(
             this DataContextOptionsBuilder builder,
             string connectionString)
         {
             throw new NotImplementedException();
         }
-        
+
         public static DataContextOptionsBuilder WithSchemaName(
             this DataContextOptionsBuilder builder,
             string schemaName)

@@ -14,15 +14,15 @@ namespace MAVN.Persistence
             Action<DataContextOptionsBuilder> builderAction)
         {
             var optionsBuilder = new DataContextOptionsBuilder();
-            
+
             builderAction.Invoke(optionsBuilder);
 
             // TODO: Validate DataContextOptions and DRY with Microsoft.Extensions.DependencyInjection
-            
+
             containerBuilder
                 .RegisterType(optionsBuilder.Options.ContextType)
                 .As(typeof(IDataContext));
-            
+
             // TODO: Register additional dependencies from DataContextOptions and DRY with Microsoft.Extensions.DependencyInjection
             
             return containerBuilder;

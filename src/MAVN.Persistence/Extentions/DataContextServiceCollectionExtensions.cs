@@ -15,16 +15,16 @@ namespace MAVN.Persistence
             Action<DataContextOptionsBuilder> builderAction)
         {
             var optionsBuilder = new DataContextOptionsBuilder();
-            
+
             builderAction.Invoke(optionsBuilder);
 
             // TODO: Validate DataContextOptions and DRY with Autofac
 
             serviceCollection
                 .AddSingleton(typeof(IDataContext), optionsBuilder.Options.ContextType);
-            
+
             // TODO: Register additional dependencies from DataContextOptions and DRY with Autofac
-            
+
             return serviceCollection;
         }
     }
