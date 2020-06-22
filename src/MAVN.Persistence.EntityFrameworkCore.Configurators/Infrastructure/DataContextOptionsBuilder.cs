@@ -4,29 +4,11 @@ namespace MAVN.Persistence.Infrastructure
 {
     public sealed class DataContextOptionsBuilder
     {
-        internal DataContextOptions Options { get; }
+        public DataContextOptions Options { get; }
 
-        internal DataContextOptionsBuilder()
+        public DataContextOptionsBuilder()
         {
             Options = new DataContextOptions();
-        }
-
-        public DataContextOptionsBuilder UseEntityFrameworkInMemory()
-        {
-            Options.DbContextOptionsConfigurator = null; // implement dynamic load for InMemory configurator
-            return this;
-        }
-
-        public DataContextOptionsBuilder UseEntityFrameworkWithPostgreSql()
-        {
-            Options.DbContextOptionsConfigurator = null; // implement dynamic load for PostgreSql configurator
-            return this;
-        }
-
-        public DataContextOptionsBuilder UseEntityFrameworkWithMsSql()
-        {
-            Options.DbContextOptionsConfigurator = null; // implement dynamic load for MsSql configurator
-            return this;
         }
 
         public DataContextOptionsBuilder WithDbContext<TDbContext>()

@@ -16,14 +16,16 @@ namespace MAVN.Persistence
 
             builderAction.Invoke(optionsBuilder);
 
-            var dbContextProvider = new DbContextProvider(
-                optionsBuilder.Options.DbContextType,
-                optionsBuilder.Options.DbContextSettings,
-                optionsBuilder.Options.DbContextOptionsConfigurator);
             containerBuilder
-                .RegisterInstance(dbContextProvider)
-                .As(typeof(IDbContextProvider))
+                .RegisterType(optionsBuilder.Options.DbContextOptionsConfiguratorType)
+                .As(typeof(IDbContextOptionsConfigurator))
                 .SingleInstance();
+            containerBuilder
+                .RegisterType<DbContextProvider>()
+                .As(typeof(IDbContextProvider))
+                .SingleInstance()
+                .WithParameter(TypedParameter.From(optionsBuilder.Options.DbContextType))
+                .WithParameter(TypedParameter.From(optionsBuilder.Options.DbContextSettings));
             containerBuilder
                 .RegisterType(optionsBuilder.Options.DbContextType)
                 .As(typeof(IDataContext))
