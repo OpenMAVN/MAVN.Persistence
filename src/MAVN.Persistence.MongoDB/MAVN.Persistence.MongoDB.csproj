@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MAVN.Persistence\MAVN.Persistence.csproj" />
+      <ProjectReference Include="..\MAVN.Persistence.Abstractions\MAVN.Persistence.Abstractions.csproj" />
     </ItemGroup>
 
 </Project>

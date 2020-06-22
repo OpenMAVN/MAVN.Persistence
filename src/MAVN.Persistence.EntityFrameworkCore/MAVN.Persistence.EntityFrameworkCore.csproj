@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\MAVN.Persistence.Abstractions\MAVN.Persistence.Abstractions.csproj" />
       <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Providers\MAVN.Persistence.EntityFrameworkCore.Providers.csproj" />
-      <ProjectReference Include="..\MAVN.Persistence\MAVN.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
