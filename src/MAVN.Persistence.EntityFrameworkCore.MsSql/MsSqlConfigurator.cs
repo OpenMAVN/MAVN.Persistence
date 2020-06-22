@@ -1,11 +1,9 @@
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MAVN.Persistence
 {
-    [PublicAPI]
-    public sealed class SQLServerConfigurator : IDbContextOptionsConfigurator
+    public sealed class MsSqlConfigurator : IDbContextOptionsConfigurator
     {
         public void Configure(
             DbContextOptionsBuilder optionsBuilder,

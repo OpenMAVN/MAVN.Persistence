@@ -8,11 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Providers\MAVN.Persistence.EntityFrameworkCore.Providers.csproj" />
+        <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Providers\MAVN.Persistence.EntityFrameworkCore.Configurators.csproj" />
     </ItemGroup>
 
 </Project>

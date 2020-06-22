@@ -13,13 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.PostgreSQL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore", "src\MAVN.Persistence.EntityFrameworkCore\MAVN.Persistence.EntityFrameworkCore.csproj", "{14D08D41-192F-4BBE-8A18-3DD95E92BA79}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.Providers", "src\MAVN.Persistence.EntityFrameworkCore.Providers\MAVN.Persistence.EntityFrameworkCore.Providers.csproj", "{496715A5-902B-4118-9670-D5513B9A7FA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.Configurators", "src\MAVN.Persistence.EntityFrameworkCore.Configurators\MAVN.Persistence.EntityFrameworkCore.Configurators.csproj", "{496715A5-902B-4118-9670-D5513B9A7FA1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.Providers.PostgreSQL", "src\MAVN.Persistence.EntityFrameworkCore.Providers.PostgreSQL\MAVN.Persistence.EntityFrameworkCore.Providers.PostgreSQL.csproj", "{08211451-E2FE-4E39-83B1-9979B5E38D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.PostgreSql", "src\MAVN.Persistence.EntityFrameworkCore.PostgreSql\MAVN.Persistence.EntityFrameworkCore.PostgreSql.csproj", "{08211451-E2FE-4E39-83B1-9979B5E38D38}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.Providers.SQLServer", "src\MAVN.Persistence.EntityFrameworkCore.Providers.SQLServer\MAVN.Persistence.EntityFrameworkCore.Providers.SQLServer.csproj", "{B57557EC-3784-43EF-8687-F4B31A44F3D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.MsSql", "src\MAVN.Persistence.EntityFrameworkCore.MsSql\MAVN.Persistence.EntityFrameworkCore.MsSql.csproj", "{B57557EC-3784-43EF-8687-F4B31A44F3D9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.Providers.InMemory", "src\MAVN.Persistence.EntityFrameworkCore.Providers.InMemory\MAVN.Persistence.EntityFrameworkCore.Providers.InMemory.csproj", "{C0F66CBF-BE12-449B-AA83-65C961F4B603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVN.Persistence.EntityFrameworkCore.InMemory", "src\MAVN.Persistence.EntityFrameworkCore.InMemory\MAVN.Persistence.EntityFrameworkCore.InMemory.csproj", "{C0F66CBF-BE12-449B-AA83-65C961F4B603}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

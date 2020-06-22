@@ -8,8 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
     </ItemGroup>
     
+    <ItemGroup>
+      <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Providers\MAVN.Persistence.EntityFrameworkCore.Configurators.csproj" />
+    </ItemGroup>
+
 </Project>

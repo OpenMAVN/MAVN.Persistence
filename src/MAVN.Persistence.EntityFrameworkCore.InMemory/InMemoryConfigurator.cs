@@ -1,9 +1,7 @@
-using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace MAVN.Persistence
 {
-    [PublicAPI]
     public sealed class InMemoryConfigurator : IDbContextOptionsConfigurator
     {
         public void Configure(

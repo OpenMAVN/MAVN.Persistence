@@ -8,11 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="3.1.5" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Providers\MAVN.Persistence.EntityFrameworkCore.Providers.csproj" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     </ItemGroup>
     
 </Project>
