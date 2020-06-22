@@ -12,7 +12,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Configurators\MAVN.Persistence.EntityFrameworkCore.Configurators.csproj" />
+        <ProjectReference Include="..\MAVN.Persistence.EntityFrameworkCore.Configuration\MAVN.Persistence.EntityFrameworkCore.Configuration.csproj" />
     </ItemGroup>
 
 </Project>
