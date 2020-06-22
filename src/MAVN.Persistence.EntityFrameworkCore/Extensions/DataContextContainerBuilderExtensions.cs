@@ -3,7 +3,6 @@ using Autofac;
 using JetBrains.Annotations;
 using MAVN.Persistence.Infrastructure;
 
-// ReSharper disable once CheckNamespace
 namespace MAVN.Persistence
 {
     [PublicAPI]
@@ -17,14 +16,19 @@ namespace MAVN.Persistence
 
             builderAction.Invoke(optionsBuilder);
 
-            // TODO: Validate DataContextOptions and DRY with Microsoft.Extensions.DependencyInjection
-
+            var dbContextProvider = new DbContextProvider(
+                optionsBuilder.Options.DbContextType,
+                optionsBuilder.Options.DbContextSettings,
+                optionsBuilder.Options.DbContextOptionsConfigurator);
             containerBuilder
-                .RegisterType(optionsBuilder.Options.DataContextType)
-                .As(typeof(IDataContext));
+                .RegisterInstance(dbContextProvider)
+                .As(typeof(IDbContextProvider))
+                .SingleInstance();
+            containerBuilder
+                .RegisterType(optionsBuilder.Options.DbContextType)
+                .As(typeof(IDataContext))
+                .SingleInstance();
 
-            // TODO: Register additional dependencies from DataContextOptions and DRY with Microsoft.Extensions.DependencyInjection
-            
             return containerBuilder;
         }
     }

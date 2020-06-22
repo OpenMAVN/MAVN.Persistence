@@ -16,12 +16,14 @@ namespace MAVN.Persistence
 
             builderAction.Invoke(optionsBuilder);
 
-            // TODO: Validate DataContextOptions and DRY with Autofac
-
+            var dbContextProvider = new DbContextProvider(
+                optionsBuilder.Options.DbContextType,
+                optionsBuilder.Options.DbContextSettings,
+                optionsBuilder.Options.DbContextOptionsConfigurator);
             serviceCollection
-                .AddSingleton(typeof(IDataContext), optionsBuilder.Options.DataContextType);
-
-            // TODO: Register additional dependencies from DataContextOptions and DRY with Autofac
+                .AddSingleton(typeof(IDbContextProvider), dbContextProvider);
+            serviceCollection
+                .AddSingleton(typeof(IDataContext), optionsBuilder.Options.DbContextType);
 
             return serviceCollection;
         }

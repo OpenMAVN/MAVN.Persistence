@@ -4,14 +4,21 @@ namespace MAVN.Persistence.Infrastructure
 {
     internal sealed class DataContextOptions
     {
-        private Type? _dataContextType;
+        private Type? _dbContextType;
+        private IDbContextOptionsConfigurator? _dbContextOptionsConfigurator;
 
         internal DbContextSettings DbContextSettings { get; }
 
-        internal Type DataContextType
+        internal Type DbContextType
         {
-            get => _dataContextType ?? throw new InvalidOperationException("DB context type is not set");
-            set => _dataContextType = value;
+            get => _dbContextType ?? throw new InvalidOperationException("DB context type is not set");
+            set => _dbContextType = value;
+        }
+
+        internal IDbContextOptionsConfigurator DbContextOptionsConfigurator
+        {
+            get => _dbContextOptionsConfigurator ?? throw new InvalidOperationException("DB context options configurator is not set");
+            set => _dbContextOptionsConfigurator = value;
         }
 
         internal DataContextOptions()

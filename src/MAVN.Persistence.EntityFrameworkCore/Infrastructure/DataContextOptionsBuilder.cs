@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace MAVN.Persistence.Infrastructure
 {
@@ -12,20 +11,29 @@ namespace MAVN.Persistence.Infrastructure
             Options = new DataContextOptions();
         }
 
-        public DataContextOptionsBuilder UseEntityFramework(string provider)
-        {
-            throw new NotImplementedException();
-        }
-
         public DataContextOptionsBuilder UseEntityFrameworkInMemory()
         {
-            throw new NotImplementedException();
+            Options.DbContextOptionsConfigurator = null; // implement dynamic load for InMemory configurator
+            return this;
+        }
+
+        public DataContextOptionsBuilder UseEntityFrameworkWithPostgreSql()
+        {
+            Options.DbContextOptionsConfigurator = null; // implement dynamic load for PostgreSql configurator
+            return this;
+        }
+
+        public DataContextOptionsBuilder UseEntityFrameworkWithMsSql()
+        {
+            Options.DbContextOptionsConfigurator = null; // implement dynamic load for MsSql configurator
+            return this;
         }
 
         public DataContextOptionsBuilder WithDbContext<TDbContext>()
             where TDbContext : DbContext
         {
-            throw new NotImplementedException();
+            Options.DbContextType = typeof(TDbContext);
+            return this;
         }
 
         public DataContextOptionsBuilder WithCommandTimeout(int commandTimeout)
