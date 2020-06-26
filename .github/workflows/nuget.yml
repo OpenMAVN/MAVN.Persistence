@@ -1,0 +1,42 @@
+name: Publish On NuGet
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - '*' # Push version tags matching to *, i.e. v1.0.0, 20.15.10 
+
+jobs:
+  publish:
+    name: List on NuGet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build
+        run: dotnet build --configuration Release "MAVN.Persistence.sln"
+
+      - name: Create nuget package for MAVN.Persistence.Abstractions
+        run: dotnet pack src/MAVN.Persistence.Abstractions/MAVN.Persistence.Abstractions.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:Version=${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore
+        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore/MAVN.Persistence.EntityFrameworkCore.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version==${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.Configuration
+        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.Configuration/MAVN.Persistence.EntityFrameworkCore.Configuration.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version==${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.InMemory
+        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.InMemory/MAVN.Persistence.EntityFrameworkCore.InMemory.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version==${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.MsSql
+        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.MsSql/MAVN.Persistence.EntityFrameworkCore.MsSql.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version==${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.PostgreSql
+        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.PostgreSql/MAVN.Persistence.EntityFrameworkCore.PostgreSql.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version==${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.PostgreSQL.Legacy
+        run: dotnet pack src/MAVN.Persistence.PostgreSQL.Legacy/MAVN.Persistence.PostgreSQL.Legacy.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version==${GITHUB_REF#refs/tags/}
+
+      - name: Publish the package to GPR
+        run: dotnet nuget push ./packages/**/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_API_KEY }}
