@@ -39,5 +39,4 @@ jobs:
         run: dotnet pack src/MAVN.Persistence.PostgreSQL.Legacy/MAVN.Persistence.PostgreSQL.Legacy.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
 
       - name: Publish the package to nuget.org
-        run: ls ./packages
-        # run: dotnet nuget push ./packages/**/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_API_KEY }}
+        run: dotnet nuget push ./packages/**/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_API_KEY }}
