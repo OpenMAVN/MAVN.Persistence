@@ -20,11 +20,11 @@ jobs:
       - name: Create nuget package for MAVN.Persistence.Abstractions
         run: dotnet pack src/MAVN.Persistence.Abstractions/MAVN.Persistence.Abstractions.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:Version=${GITHUB_REF#refs/tags/}
 
-      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore
-        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore/MAVN.Persistence.EntityFrameworkCore.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
-
       - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.Configuration
         run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.Configuration/MAVN.Persistence.EntityFrameworkCore.Configuration.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
+
+      - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore
+        run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore/MAVN.Persistence.EntityFrameworkCore.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
 
       - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.InMemory
         run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.InMemory/MAVN.Persistence.EntityFrameworkCore.InMemory.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
@@ -38,5 +38,6 @@ jobs:
       - name: Create nuget package for MAVN.Persistence.PostgreSQL.Legacy
         run: dotnet pack src/MAVN.Persistence.PostgreSQL.Legacy/MAVN.Persistence.PostgreSQL.Legacy.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
 
-      - name: Publish the package to GPR
-        run: dotnet nuget push ./packages/**/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_API_KEY }}
+      - name: Publish the package to nuget.org
+        run: ls ./packages
+        # run: dotnet nuget push ./packages/**/*.nupkg -s "https://api.nuget.org/v3/index.json" -k ${{ secrets.NUGET_API_KEY }}
