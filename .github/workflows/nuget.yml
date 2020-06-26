@@ -18,7 +18,7 @@ jobs:
         run: dotnet build --configuration Release "MAVN.Persistence.sln"
 
       - name: Create nuget package for MAVN.Persistence.Abstractions
-        run: dotnet pack src/MAVN.Persistence.Abstractions/MAVN.Persistence.Abstractions.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:Version=${GITHUB_REF#refs/tags/}
+        run: dotnet pack src/MAVN.Persistence.Abstractions/MAVN.Persistence.Abstractions.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
 
       - name: Create nuget package for MAVN.Persistence.EntityFrameworkCore.Configuration
         run: dotnet pack src/MAVN.Persistence.EntityFrameworkCore.Configuration/MAVN.Persistence.EntityFrameworkCore.Configuration.csproj --configuration Release --output ./packages --no-build --include-symbols --include-source /p:SymbolPackageFormat=snupkg /p:Version=${GITHUB_REF#refs/tags/}
