@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MAVN.Persistence
 {
-    public class DbContextProvider : IDbContextProvider
+    internal class DbContextProvider : IDbContextProvider
     {
         private readonly Type _dbContextType;
         private readonly DbContextSettings _dbContextSettings;
         private readonly IDbContextOptionsConfigurator _dbContextOptionsConfigurator;
 
-        public DbContextProvider(
+        internal DbContextProvider(
             Type dbContextType,
             DbContextSettings dbContextSettings,
             IDbContextOptionsConfigurator dbContextOptionsConfigurator)
@@ -17,8 +17,8 @@ namespace MAVN.Persistence
             if (dbContextType == null)
                 throw new ArgumentNullException(nameof(dbContextType));
 
-            if (!dbContextType.IsSubclassOf(typeof(DbContext)))
-                throw new ArgumentException("Should be inherited from DbContext.", nameof(dbContextType));
+            if (!dbContextType.IsSubclassOf(typeof(EfDbContext)))
+                throw new ArgumentException($"Should be inherited from {nameof(EfDbContext)}.", nameof(dbContextType));
 
             _dbContextType = dbContextType;
             _dbContextSettings = dbContextSettings ?? throw new ArgumentNullException(nameof(dbContextSettings));
@@ -31,7 +31,7 @@ namespace MAVN.Persistence
 
             _dbContextOptionsConfigurator.Configure(optionsBuilder, _dbContextSettings);
 
-            return (DbContext) Activator.CreateInstance(_dbContextType, optionsBuilder.Options);
+            return (EfDbContext) Activator.CreateInstance(_dbContextType, optionsBuilder.Options);
         }
     }
 }

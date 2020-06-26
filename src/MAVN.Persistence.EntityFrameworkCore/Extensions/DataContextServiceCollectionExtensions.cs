@@ -1,6 +1,7 @@
 using System;
 using JetBrains.Annotations;
 using MAVN.Persistence.Infrastructure;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MAVN.Persistence
@@ -23,6 +24,14 @@ namespace MAVN.Persistence
                     optionsBuilder.Options.DbContextSettings,
                     x.GetRequiredService<IDbContextOptionsConfigurator>()));
             serviceCollection.AddSingleton(typeof(IDataContext), optionsBuilder.Options.DbContextType);
+
+            Type factoryType = typeof(DesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
+            Type interfaceType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
+            serviceCollection.AddSingleton(interfaceType, x =>
+                Activator.CreateInstance(
+                    factoryType,
+                    optionsBuilder.Options.DbContextSettings,
+                    x.GetRequiredService<IDbContextOptionsConfigurator>()));
 
             return serviceCollection;
         }

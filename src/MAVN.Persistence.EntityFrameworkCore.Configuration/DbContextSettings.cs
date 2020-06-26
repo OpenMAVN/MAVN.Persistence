@@ -27,5 +27,7 @@ namespace MAVN.Persistence
             get => _schemaName ?? throw new InvalidOperationException("DB schema is not set");
             set => _schemaName = value;
         }
+
+        public string? MigrationsAssemblyName { get; set; }
     }
 }

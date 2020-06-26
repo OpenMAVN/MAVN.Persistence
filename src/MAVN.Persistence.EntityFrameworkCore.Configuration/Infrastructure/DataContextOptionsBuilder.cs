@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace MAVN.Persistence.Infrastructure
 {
     public sealed class DataContextOptionsBuilder
@@ -9,13 +7,6 @@ namespace MAVN.Persistence.Infrastructure
         public DataContextOptionsBuilder()
         {
             Options = new DataContextOptions();
-        }
-
-        public DataContextOptionsBuilder WithDbContext<TDbContext>()
-            where TDbContext : DbContext
-        {
-            Options.DbContextType = typeof(TDbContext);
-            return this;
         }
 
         public DataContextOptionsBuilder WithCommandTimeout(int commandTimeout)
