@@ -23,11 +23,16 @@ namespace MAVN.Persistence
                 .SingleInstance();
 
             containerBuilder
-                .RegisterType<DbContextProvider>()
+                .Register(c =>
+                {
+                    var configurator = c.Resolve<IDbContextOptionsConfigurator>();
+                    return new DbContextProvider(
+                        optionsBuilder.Options.DbContextType,
+                        optionsBuilder.Options.DbContextSettings,
+                        configurator);
+                })
                 .As(typeof(IDbContextProvider))
-                .SingleInstance()
-                .WithParameter(TypedParameter.From(optionsBuilder.Options.DbContextType))
-                .WithParameter(TypedParameter.From(optionsBuilder.Options.DbContextSettings));
+                .SingleInstance();
 
             containerBuilder
                 .RegisterType<DataContext>()
@@ -36,12 +41,17 @@ namespace MAVN.Persistence
 
             var factoryType = typeof(DesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
             var interfaceType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
-            
             containerBuilder
-                .RegisterType(factoryType)
+                .Register(c =>
+                {
+                    var configurator = c.Resolve<IDbContextOptionsConfigurator>();
+                    return Activator.CreateInstance(
+                        factoryType,
+                        optionsBuilder.Options.DbContextSettings,
+                        configurator);
+                })
                 .As(interfaceType)
-                .SingleInstance()
-                .WithParameter(TypedParameter.From(optionsBuilder.Options.DbContextSettings));
+                .SingleInstance();
 
             return containerBuilder;
         }

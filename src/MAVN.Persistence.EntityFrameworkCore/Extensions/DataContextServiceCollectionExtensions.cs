@@ -18,12 +18,14 @@ namespace MAVN.Persistence
             builderAction.Invoke(optionsBuilder);
 
             serviceCollection.AddSingleton(typeof(IDbContextOptionsConfigurator), optionsBuilder.Options.DbContextOptionsConfiguratorType);
+
             serviceCollection.AddSingleton<IDbContextProvider>(x =>
                 new DbContextProvider(
                     optionsBuilder.Options.DbContextType,
                     optionsBuilder.Options.DbContextSettings,
                     x.GetRequiredService<IDbContextOptionsConfigurator>()));
-            serviceCollection.AddSingleton(typeof(IDataContext), optionsBuilder.Options.DbContextType);
+
+            serviceCollection.AddSingleton(typeof(IDataContext), typeof(DataContext));
 
             Type factoryType = typeof(DesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
             Type interfaceType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
