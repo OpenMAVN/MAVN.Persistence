@@ -6,8 +6,13 @@ namespace MAVN.Persistence
 {
     public abstract class EfDbContext : DbContext
     {
-        public string? Schema { get; set; }
+        internal string? Schema { get; set; }
         public bool IsTraceEnabled { get; set; }
+
+        public EfDbContext(DbContextOptions dbContextOptions)
+            : base(dbContextOptions)
+        {
+        }
 
         protected virtual void OnMAVNConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

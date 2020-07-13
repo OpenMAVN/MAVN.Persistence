@@ -25,13 +25,16 @@ namespace MAVN.Persistence
             _dbContextOptionsConfigurator = dbContextOptionsConfigurator ?? throw new ArgumentNullException(nameof(dbContextOptionsConfigurator));
         }
 
-        public DbContext CreateDbContext()
+        public DbContext CreateDbContext(bool enableTracing = false)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
 
             _dbContextOptionsConfigurator.Configure(optionsBuilder, _dbContextSettings);
 
-            return (EfDbContext) Activator.CreateInstance(_dbContextType, optionsBuilder.Options);
+            var result = (EfDbContext) Activator.CreateInstance(_dbContextType, optionsBuilder.Options);
+            result.Schema = _dbContextSettings.SchemaName;
+            result.IsTraceEnabled = enableTracing;
+            return result;
         }
     }
 }

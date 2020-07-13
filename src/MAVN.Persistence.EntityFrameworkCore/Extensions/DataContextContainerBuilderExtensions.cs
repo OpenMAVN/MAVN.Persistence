@@ -2,7 +2,6 @@ using System;
 using Autofac;
 using JetBrains.Annotations;
 using MAVN.Persistence.Infrastructure;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace MAVN.Persistence
 {
@@ -37,20 +36,6 @@ namespace MAVN.Persistence
             containerBuilder
                 .RegisterType<DataContext>()
                 .As(typeof(IDataContext))
-                .SingleInstance();
-
-            var factoryType = typeof(DesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
-            var interfaceType = typeof(IDesignTimeDbContextFactory<>).MakeGenericType(optionsBuilder.Options.DbContextType);
-            containerBuilder
-                .Register(c =>
-                {
-                    var configurator = c.Resolve<IDbContextOptionsConfigurator>();
-                    return Activator.CreateInstance(
-                        factoryType,
-                        optionsBuilder.Options.DbContextSettings,
-                        configurator);
-                })
-                .As(interfaceType)
                 .SingleInstance();
 
             return containerBuilder;

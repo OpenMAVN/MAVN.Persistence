@@ -1,8 +1,16 @@
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore")]
+[assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.InMemory")]
+[assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.MsSql")]
+[assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.PostgreSql")]
+
 namespace MAVN.Persistence.Infrastructure
 {
+
     public sealed class DataContextOptionsBuilder
     {
-        public DataContextOptions Options { get; }
+        internal DataContextOptions Options { get; }
 
         public DataContextOptionsBuilder()
         {

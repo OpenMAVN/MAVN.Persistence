@@ -4,6 +4,6 @@ namespace MAVN.Persistence
 {
     public interface IDbContextProvider
     {
-        DbContext CreateDbContext();
+        DbContext CreateDbContext(bool enableTracing = false);
     }
 }
