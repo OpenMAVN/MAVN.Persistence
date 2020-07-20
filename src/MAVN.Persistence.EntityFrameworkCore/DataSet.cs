@@ -66,9 +66,12 @@ namespace MAVN.Persistence
         }
 
         public IEnumerable<TEntity> Find(
-            ISpecification<TEntity>? specification = null)
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
         {
-            return _dbSet.Evaluate(specification);
+            return _dbSet
+                .Evaluate(specification)
+                .EvaluateFetch(fetchSpecification);
         }
 
         public void Remove(

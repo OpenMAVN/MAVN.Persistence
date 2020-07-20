@@ -1,28 +1,22 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq.Expressions;
 
 namespace MAVN.Persistence.Specifications
 {
-    public sealed class SpecificationWithOrdering<T> : Specification, ISpecificationWithOrdering<T>
+    public sealed class FetchSpecification<T> : IFetchSpecification<T>
     {
-        public Expression<Func<T, bool>>? Criteria { get; }
-
-        public Expression<Func<T, object>>? GroupBy { get; }
+        public IReadOnlyList<IIncludeExpression<T>> Include { get; }
 
         public IReadOnlyList<OrderingExpression<T>> OrderBy { get; }
 
         public PaginationExpression? TakePage { get; }
 
-        internal SpecificationWithOrdering(
-            Expression<Func<T, bool>>? criteria,
-            Expression<Func<T, object>>? groupBy,
+        public FetchSpecification(
+            IEnumerable<IIncludeExpression<T>>? include,
             IEnumerable<OrderingExpression<T>>? orderBy,
             PaginationExpression? takePage)
         {
-            Criteria = criteria;
-            GroupBy = groupBy;
+            Include = include?.ToImmutableArray() ?? ImmutableArray<IIncludeExpression<T>>.Empty;
             OrderBy = orderBy?.ToImmutableArray() ?? ImmutableArray<OrderingExpression<T>>.Empty;
             TakePage = takePage;
         }

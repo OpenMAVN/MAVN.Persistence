@@ -10,7 +10,5 @@ namespace MAVN.Persistence.Specifications
         Expression<Func<T, bool>>? Criteria { get; }
 
         Expression<Func<T, object>>? GroupBy { get; }
-
-        PaginationExpression? TakePage { get; }
     }
 }

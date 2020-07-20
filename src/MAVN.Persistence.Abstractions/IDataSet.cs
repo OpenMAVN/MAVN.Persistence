@@ -28,7 +28,8 @@ namespace MAVN.Persistence
             Expression<Func<TEntity, bool>> predicate);
 
         IEnumerable<TEntity> Find(
-            ISpecification<TEntity>? specification = null);
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null);
 
         void Remove(
             TEntity entity);

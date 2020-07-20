@@ -9,16 +9,12 @@ namespace MAVN.Persistence.Specifications
 
         public Expression<Func<T, object>>? GroupBy { get; }
 
-        public PaginationExpression? TakePage { get; }
-
         internal Specification(
             Expression<Func<T, bool>>? criteria,
-            Expression<Func<T, object>>? groupBy,
-            PaginationExpression? takePage)
+            Expression<Func<T, object>>? groupBy)
         {
             Criteria = criteria;
             GroupBy = groupBy;
-            TakePage = takePage;
         }
     }
 }

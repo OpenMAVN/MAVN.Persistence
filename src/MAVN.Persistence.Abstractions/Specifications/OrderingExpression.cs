@@ -11,7 +11,7 @@ namespace MAVN.Persistence.Specifications
 
         public Expression<Func<T, object>> KeySelector { get; }
 
-        public OrderingExpression(
+        internal OrderingExpression(
             OrderingDirection direction,
             Expression<Func<T, object>> keySelector)
         {

@@ -10,8 +10,7 @@ namespace MAVN.Persistence.Specifications
             return new Specification<T>
             (
                 criteria: null,
-                groupBy:  null,
-                takePage: null
+                groupBy:  null
             );
         }
     }
