@@ -1,8 +1,23 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace MAVN.Persistence.Specifications
 {
+    public static class FetchSpecification
+    {
+        [PublicAPI]
+        public static IFetchSpecification<T> For<T>()
+        {
+            return new FetchSpecification<T>
+            (
+                include: null,
+                orderBy: null,
+                takePage: null
+            );
+        }
+    }
+
     public sealed class FetchSpecification<T> : IFetchSpecification<T>
     {
         public IReadOnlyList<IIncludeExpression<T>> Include { get; }
