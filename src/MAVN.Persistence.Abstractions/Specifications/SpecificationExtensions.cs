@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using JetBrains.Annotations;
 
@@ -16,7 +17,9 @@ namespace MAVN.Persistence.Specifications
             var criteria = predicate;
             if (specification.Criteria != null)
             {
-                var body = Expression.AndAlso(specification.Criteria.Body, predicate.Body);
+                var updatedCriteria = specification.Criteria.Update(
+                    specification.Criteria.Body, new List<ParameterExpression> { predicate.Parameters[0] });
+                var body = Expression.AndAlso(updatedCriteria.Body, predicate.Body);
                 criteria = Expression.Lambda<Func<T, bool>>(body, predicate.Parameters[0]);
             }
             return new Specification<T>
