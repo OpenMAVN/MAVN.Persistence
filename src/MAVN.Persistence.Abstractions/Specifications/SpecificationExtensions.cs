@@ -17,9 +17,8 @@ namespace MAVN.Persistence.Specifications
             var criteria = predicate;
             if (specification.Criteria != null)
             {
-                var updatedCriteria = specification.Criteria.Update(
-                    specification.Criteria.Body, new List<ParameterExpression> { predicate.Parameters[0] });
-                var body = Expression.AndAlso(updatedCriteria.Body, predicate.Body);
+                var body = Expression.AndAlso(
+                    Expression.Invoke(specification.Criteria, predicate.Parameters[0]), predicate.Body);
                 criteria = Expression.Lambda<Func<T, bool>>(body, predicate.Parameters[0]);
             }
             return new Specification<T>
