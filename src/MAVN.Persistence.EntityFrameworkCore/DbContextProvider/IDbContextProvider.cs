@@ -2,7 +2,10 @@ using Microsoft.Extensions.Logging;
 
 namespace MAVN.Persistence
 {
-    internal interface IDbContextProvider
+    /// <summary>
+    /// Used by design time factories to create DbContext.
+    /// </summary>
+    public interface IDbContextProvider
     {
         EfDbContext CreateDbContext(ILoggerFactory? loggerFactory = null);
     }
