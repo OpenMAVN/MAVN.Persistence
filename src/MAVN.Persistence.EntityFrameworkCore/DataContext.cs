@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 
 namespace MAVN.Persistence
 {
-    public sealed class DataContext : IDataContext
+    internal sealed class DataContext : IDataContext
     {
         private readonly IDbContextProvider _dbContextProvider;
         private readonly ILoggerFactory? _loggerFatory;
