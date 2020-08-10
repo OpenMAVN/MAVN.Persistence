@@ -13,9 +13,10 @@ namespace MAVN.Persistence
             using (var scope = host.Services.CreateScope())
             {
                 var contextProvider = scope.ServiceProvider.GetRequiredService<IDbContextProvider>();
+                var loggerFactory = scope.ServiceProvider.GetService<ILoggerFactory>();
                 try
                 {
-                    using (var dbContext = contextProvider.CreateDbContext(true))
+                    using (var dbContext = contextProvider.CreateDbContext(loggerFactory))
                     {
                         dbContext.Database.Migrate();
                     }
@@ -35,9 +36,10 @@ namespace MAVN.Persistence
         public static IServiceProvider MigrateDatabase(this IServiceProvider serviceProvider)
         {
             var contextProvider = serviceProvider.GetRequiredService<IDbContextProvider>();
+            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             try
             {
-                using (var dbContext = contextProvider.CreateDbContext(true))
+                using (var dbContext = contextProvider.CreateDbContext(loggerFactory))
                 {
                     dbContext.Database.Migrate();
                 }

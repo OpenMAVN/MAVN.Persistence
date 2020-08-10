@@ -9,6 +9,8 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public string Param { get; set; }
+        public string StrParam { get; set; }
+
+        public int IntParam { get; set; }
     }
 }

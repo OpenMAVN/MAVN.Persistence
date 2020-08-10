@@ -1,14 +1,13 @@
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace MAVN.Persistence
 {
     public sealed class UnitOfWork : IUnitOfWork
     {
-        private readonly DbContext _dbContext;
+        private readonly EfDbContext _dbContext;
 
         internal UnitOfWork(
-            DbContext dbContext)
+            EfDbContext dbContext)
         {
             _dbContext = dbContext;
         }

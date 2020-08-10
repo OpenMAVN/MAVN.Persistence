@@ -23,7 +23,8 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             var dataSet = uow.DataSet<TestEntity>();
             var spec = Specification.For<TestEntity>()
                 .Where(i => i.Id > 0)
-                .Where(i => i.Param != null);
+                .Where(i => i.StrParam != null)
+                .Where(i => i.IntParam == 0);
 
             var count = await dataSet.CountAsync(spec);
 

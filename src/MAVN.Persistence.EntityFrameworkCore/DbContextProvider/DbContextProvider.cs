@@ -1,5 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace MAVN.Persistence
 {
@@ -25,15 +26,16 @@ namespace MAVN.Persistence
             _dbContextOptionsConfigurator = dbContextOptionsConfigurator ?? throw new ArgumentNullException(nameof(dbContextOptionsConfigurator));
         }
 
-        public DbContext CreateDbContext(bool enableTracing = false)
+        public EfDbContext CreateDbContext(ILoggerFactory? loggerFactory = null)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
+            if (loggerFactory != null)
+                optionsBuilder.UseLoggerFactory(loggerFactory);
 
             _dbContextOptionsConfigurator.Configure(optionsBuilder, _dbContextSettings);
 
             var result = (EfDbContext) Activator.CreateInstance(_dbContextType, optionsBuilder.Options);
             result.Schema = _dbContextSettings.SchemaName;
-            result.IsTraceEnabled = enableTracing;
             return result;
         }
     }

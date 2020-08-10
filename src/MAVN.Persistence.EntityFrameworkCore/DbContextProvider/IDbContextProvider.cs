@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace MAVN.Persistence
 {
     public interface IDbContextProvider
     {
-        DbContext CreateDbContext(bool enableTracing = false);
+        EfDbContext CreateDbContext(ILoggerFactory? loggerFactory = null);
     }
 }
