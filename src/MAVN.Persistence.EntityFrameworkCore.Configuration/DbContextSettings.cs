@@ -16,6 +16,8 @@ namespace MAVN.Persistence
             set => _commandTimeout = value;
         }
 
+        public int RetriesCount { get; set; } = 1;
+
         public string ConnectionString
         {
             get => _connectionString ?? throw new InvalidOperationException("DB connection string is not set");

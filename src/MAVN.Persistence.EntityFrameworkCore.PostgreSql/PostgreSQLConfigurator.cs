@@ -14,6 +14,8 @@ namespace MAVN.Persistence
                 options
                     .MigrationsHistoryTable(HistoryRepository.DefaultTableName, dbContextSettings.SchemaName)
                     .CommandTimeout(dbContextSettings.CommandTimeout);
+                if (dbContextSettings.RetriesCount > 1)
+                    options.EnableRetryOnFailure(dbContextSettings.RetriesCount);
                 if (dbContextSettings.MigrationsAssemblyName != null)
                     options.MigrationsAssembly(dbContextSettings.MigrationsAssemblyName);
             });
