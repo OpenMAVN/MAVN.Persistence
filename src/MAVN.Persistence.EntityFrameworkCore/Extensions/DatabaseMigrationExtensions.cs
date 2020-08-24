@@ -8,12 +8,13 @@ namespace MAVN.Persistence
 {
     public static class DatabaseMigrationExtensions
     {
-        public static IHost MigrateDatabase(this IHost host)
+        public static IHost MigrateDatabase(this IHost host, ILoggerFactory? loggerFactory = null)
         {
             using (var scope = host.Services.CreateScope())
             {
                 var contextProvider = scope.ServiceProvider.GetRequiredService<IDbContextProvider>();
-                var loggerFactory = scope.ServiceProvider.GetService<ILoggerFactory>();
+                if (loggerFactory == null)
+                    loggerFactory = scope.ServiceProvider.GetService<ILoggerFactory>();
                 try
                 {
                     using (var dbContext = contextProvider.CreateDbContext(loggerFactory))
@@ -33,10 +34,11 @@ namespace MAVN.Persistence
             return host;
         }
 
-        public static IServiceProvider MigrateDatabase(this IServiceProvider serviceProvider)
+        public static IServiceProvider MigrateDatabase(this IServiceProvider serviceProvider, ILoggerFactory? loggerFactory = null)
         {
             var contextProvider = serviceProvider.GetRequiredService<IDbContextProvider>();
-            var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            if (loggerFactory == null)
+                loggerFactory = serviceProvider.GetService<ILoggerFactory>();
             try
             {
                 using (var dbContext = contextProvider.CreateDbContext(loggerFactory))
