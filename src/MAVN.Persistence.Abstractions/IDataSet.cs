@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MAVN.Persistence.Specifications;
@@ -39,5 +40,8 @@ namespace MAVN.Persistence
 
         void Update(
             TEntity entity);
+
+        TResult Evaluate<TResult>(
+            Func<IQueryable<TEntity>, TResult> func);
     }
 }
