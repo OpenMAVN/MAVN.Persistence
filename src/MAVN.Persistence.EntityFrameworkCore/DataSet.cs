@@ -93,5 +93,11 @@ namespace MAVN.Persistence
 
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
+        
+        public TResult Evaluate<TResult>(
+            Func<IQueryable<TEntity>, TResult> func)
+        {
+            return func(_dbSet);
+        }
     }
 }
