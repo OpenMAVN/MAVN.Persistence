@@ -46,7 +46,7 @@ namespace MAVN.Persistence
             throw new NotImplementedException();
         }
 
-        public IEnumerable<TEntity> Find(
+        public IQueryable<TEntity> Find(
             ISpecification<TEntity>? specification = null,
             IFetchSpecification<TEntity>? fetchSpecification = null)
         {

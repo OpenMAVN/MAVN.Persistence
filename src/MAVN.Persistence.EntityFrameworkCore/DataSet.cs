@@ -65,7 +65,7 @@ namespace MAVN.Persistence
                 .CountAsync();
         }
 
-        public IEnumerable<TEntity> Find(
+        public IQueryable<TEntity> Find(
             ISpecification<TEntity>? specification = null,
             IFetchSpecification<TEntity>? fetchSpecification = null)
         {
