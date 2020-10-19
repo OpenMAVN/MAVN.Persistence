@@ -28,7 +28,19 @@ namespace MAVN.Persistence
         Task<int> CountAsync(
             Expression<Func<TEntity, bool>> predicate);
 
-        IQueryable<TEntity> Find(
+        IEnumerable<TEntity> Find(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null);
+
+        Task<IEnumerable<TEntity>> FindAsync(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null);
+
+        TEntity? FindFirstOrDefault(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null);
+
+        Task<TEntity?> FindFirstOrDefaultAsync(
             ISpecification<TEntity>? specification = null,
             IFetchSpecification<TEntity>? fetchSpecification = null);
 

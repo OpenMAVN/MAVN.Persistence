@@ -46,7 +46,14 @@ namespace MAVN.Persistence
             throw new NotImplementedException();
         }
 
-        public IQueryable<TEntity> Find(
+        public IEnumerable<TEntity> Find(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<TEntity>> FindAsync(
             ISpecification<TEntity>? specification = null,
             IFetchSpecification<TEntity>? fetchSpecification = null)
         {
@@ -73,6 +80,20 @@ namespace MAVN.Persistence
         
         public TResult Evaluate<TResult>(
             Func<IQueryable<TEntity>, TResult> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public TEntity? FindFirstOrDefault(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TEntity?> FindFirstOrDefaultAsync(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
         {
             throw new NotImplementedException();
         }

@@ -65,13 +65,43 @@ namespace MAVN.Persistence
                 .CountAsync();
         }
 
-        public IQueryable<TEntity> Find(
+        public IEnumerable<TEntity> Find(
             ISpecification<TEntity>? specification = null,
             IFetchSpecification<TEntity>? fetchSpecification = null)
         {
             return _dbSet
                 .Evaluate(specification)
                 .EvaluateFetch(fetchSpecification);
+        }
+
+        public async Task<IEnumerable<TEntity>> FindAsync(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
+        {
+            return await _dbSet
+                .Evaluate(specification)
+                .EvaluateFetch(fetchSpecification)
+                .ToListAsync();
+        }
+
+        public TEntity? FindFirstOrDefault(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
+        {
+            return _dbSet
+                .Evaluate(specification)
+                .EvaluateFetch(fetchSpecification)
+                .FirstOrDefault();
+        }
+
+        public async Task<TEntity?> FindFirstOrDefaultAsync(
+            ISpecification<TEntity>? specification = null,
+            IFetchSpecification<TEntity>? fetchSpecification = null)
+        {
+            return await _dbSet
+                .Evaluate(specification)
+                .EvaluateFetch(fetchSpecification)
+                .FirstOrDefaultAsync();
         }
 
         public void Remove(
