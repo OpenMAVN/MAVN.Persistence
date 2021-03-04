@@ -97,5 +97,25 @@ namespace MAVN.Persistence
         {
             throw new NotImplementedException();
         }
+
+        public bool Contains(ISpecification<TEntity>? specification = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(Expression<Func<TEntity, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count(ISpecification<TEntity>? specification = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count(Expression<Func<TEntity, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

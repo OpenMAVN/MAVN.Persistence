@@ -33,6 +33,20 @@ namespace MAVN.Persistence
             _dbSet.AddRange(entities);
         }
 
+        public bool Contains(ISpecification<TEntity>? specification = null)
+        {
+            return _dbSet
+                .Evaluate(specification)
+                .Any();
+        }
+
+        public bool Contains(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet
+                .Where(predicate)
+                .Any();
+        }
+
         public Task<bool> ContainsAsync(
             ISpecification<TEntity>? specification = null)
         {
@@ -47,6 +61,20 @@ namespace MAVN.Persistence
             return _dbSet
                 .Where(predicate)
                 .AnyAsync();
+        }
+
+        public int Count(ISpecification<TEntity>? specification = null)
+        {
+            return _dbSet
+                .Evaluate(specification)
+                .Count();
+        }
+
+        public int Count(Expression<Func<TEntity, bool>> predicate)
+        {
+            return _dbSet
+                .Where(predicate)
+                .Count();
         }
 
         public Task<int> CountAsync(

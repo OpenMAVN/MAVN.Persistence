@@ -16,10 +16,22 @@ namespace MAVN.Persistence
         void AddRange(
             IEnumerable<TEntity> entities);
 
+        bool Contains(
+            ISpecification<TEntity>? specification = null);
+
+        bool Contains(
+            Expression<Func<TEntity, bool>> predicate);
+
         Task<bool> ContainsAsync(
             ISpecification<TEntity>? specification = null);
 
         Task<bool> ContainsAsync(
+            Expression<Func<TEntity, bool>> predicate);
+
+        int Count(
+            ISpecification<TEntity>? specification = null);
+
+        int Count(
             Expression<Func<TEntity, bool>> predicate);
 
         Task<int> CountAsync(

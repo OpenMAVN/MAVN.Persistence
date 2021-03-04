@@ -17,6 +17,11 @@ namespace MAVN.Persistence
             _dbContext.Dispose();
         }
 
+        public void Complete()
+        {
+            _dbContext.SaveChanges();
+        }
+
         public Task CompleteAsync()
         {
             return _dbContext.SaveChangesAsync();

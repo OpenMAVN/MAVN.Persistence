@@ -9,6 +9,11 @@ namespace MAVN.Persistence
             throw new System.NotImplementedException();
         }
 
+        public void Complete()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task CompleteAsync()
         {
             throw new System.NotImplementedException();
