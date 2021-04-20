@@ -117,5 +117,15 @@ namespace MAVN.Persistence
         {
             throw new NotImplementedException();
         }
+
+        public long Sum(ISpecification<TEntity>? specification, Expression<Func<TEntity, long>> selector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> SumAsync(ISpecification<TEntity>? specification, Expression<Func<TEntity, long>> selector)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -93,6 +93,26 @@ namespace MAVN.Persistence
                 .CountAsync();
         }
 
+        public long Sum(
+            ISpecification<TEntity>? specification,
+            Expression<Func<TEntity, long>> selector)
+        {
+            return _dbSet
+                .Evaluate(specification)
+                .Select(selector)
+                .Sum();
+        }
+
+        public Task<long> SumAsync(
+            ISpecification<TEntity>? specification,
+            Expression<Func<TEntity, long>> selector)
+        {
+            return _dbSet
+                .Evaluate(specification)
+                .Select(selector)
+                .SumAsync();
+        }
+
         public IEnumerable<TEntity> Find(
             ISpecification<TEntity>? specification = null,
             IFetchSpecification<TEntity>? fetchSpecification = null)
