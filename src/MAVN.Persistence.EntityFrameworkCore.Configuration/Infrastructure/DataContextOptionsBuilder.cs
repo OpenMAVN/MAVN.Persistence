@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.InMemory")]
 [assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.MsSql")]
 [assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.PostgreSql")]
+[assembly: InternalsVisibleTo("MAVN.Persistence.EntityFrameworkCore.MySql")]
 
 namespace MAVN.Persistence.Infrastructure
 {
