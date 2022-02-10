@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MAVN.Persistence.Specifications;
 using Microsoft.EntityFrameworkCore;
@@ -48,19 +49,19 @@ namespace MAVN.Persistence
         }
 
         public Task<bool> ContainsAsync(
-            ISpecification<TEntity>? specification = null)
+            ISpecification<TEntity>? specification = null, CancellationToken cancellationToken = default)
         {
             return _dbSet
                 .Evaluate(specification)
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
 
         public Task<bool> ContainsAsync(
-            Expression<Func<TEntity, bool>> predicate)
+            Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return _dbSet
                 .Where(predicate)
-                .AnyAsync();
+                .AnyAsync(cancellationToken);
         }
 
         public int Count(ISpecification<TEntity>? specification = null)
@@ -78,19 +79,19 @@ namespace MAVN.Persistence
         }
 
         public Task<int> CountAsync(
-            ISpecification<TEntity>? specification = null)
+            ISpecification<TEntity>? specification = null, CancellationToken cancellationToken = default)
         {
             return _dbSet
                 .Evaluate(specification)
-                .CountAsync();
+                .CountAsync(cancellationToken);
         }
 
         public Task<int> CountAsync(
-            Expression<Func<TEntity, bool>> predicate)
+            Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return _dbSet
                 .Where(predicate)
-                .CountAsync();
+                .CountAsync(cancellationToken);
         }
 
         public long Sum(
@@ -105,12 +106,13 @@ namespace MAVN.Persistence
 
         public Task<long> SumAsync(
             ISpecification<TEntity>? specification,
-            Expression<Func<TEntity, long>> selector)
+            Expression<Func<TEntity, long>> selector,
+            CancellationToken cancellationToken = default)
         {
             return _dbSet
                 .Evaluate(specification)
                 .Select(selector)
-                .SumAsync();
+                .SumAsync(cancellationToken);
         }
 
         public IEnumerable<TEntity> Find(
@@ -124,12 +126,13 @@ namespace MAVN.Persistence
 
         public async Task<IEnumerable<TEntity>> FindAsync(
             ISpecification<TEntity>? specification = null,
-            IFetchSpecification<TEntity>? fetchSpecification = null)
+            IFetchSpecification<TEntity>? fetchSpecification = null,
+            CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Evaluate(specification)
                 .EvaluateFetch(fetchSpecification)
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
 
         public TEntity? FindFirstOrDefault(
@@ -144,12 +147,13 @@ namespace MAVN.Persistence
 
         public async Task<TEntity?> FindFirstOrDefaultAsync(
             ISpecification<TEntity>? specification = null,
-            IFetchSpecification<TEntity>? fetchSpecification = null)
+            IFetchSpecification<TEntity>? fetchSpecification = null,
+            CancellationToken cancellationToken = default)
         {
             return await _dbSet
                 .Evaluate(specification)
                 .EvaluateFetch(fetchSpecification)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         public void Remove(

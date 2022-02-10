@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using MAVN.Persistence.Specifications;
 
@@ -23,25 +24,25 @@ namespace MAVN.Persistence
         }
 
         public Task<bool> ContainsAsync(
-            ISpecification<TEntity>? specification = null)
+            ISpecification<TEntity>? specification = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
         public Task<bool> ContainsAsync(
-            Expression<Func<TEntity, bool>> predicate)
+            Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
         public Task<int> CountAsync(
-            ISpecification<TEntity>? specification = null)
+            ISpecification<TEntity>? specification = null, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
         public Task<int> CountAsync(
-            Expression<Func<TEntity, bool>> predicate)
+            Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -55,7 +56,8 @@ namespace MAVN.Persistence
 
         public Task<IEnumerable<TEntity>> FindAsync(
             ISpecification<TEntity>? specification = null,
-            IFetchSpecification<TEntity>? fetchSpecification = null)
+            IFetchSpecification<TEntity>? fetchSpecification = null,
+            CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -93,7 +95,8 @@ namespace MAVN.Persistence
 
         public Task<TEntity?> FindFirstOrDefaultAsync(
             ISpecification<TEntity>? specification = null,
-            IFetchSpecification<TEntity>? fetchSpecification = null)
+            IFetchSpecification<TEntity>? fetchSpecification = null,
+            CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -123,7 +126,10 @@ namespace MAVN.Persistence
             throw new NotImplementedException();
         }
 
-        public Task<long> SumAsync(ISpecification<TEntity>? specification, Expression<Func<TEntity, long>> selector)
+        public Task<long> SumAsync(
+            ISpecification<TEntity>? specification,
+            Expression<Func<TEntity, long>> selector,
+            CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
