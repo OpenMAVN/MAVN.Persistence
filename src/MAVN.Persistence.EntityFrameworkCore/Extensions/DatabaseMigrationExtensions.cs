@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -55,6 +57,30 @@ namespace MAVN.Persistence
             }
 
             return serviceProvider;
+        }
+
+        public static Task MigrateDatabaseAsync(
+            this IServiceProvider serviceProvider,
+            ILoggerFactory? loggerFactory = null,
+            CancellationToken cancellationToken = default)
+        {
+            var contextProvider = serviceProvider.GetRequiredService<IDbContextProvider>();
+            if (loggerFactory == null)
+                loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+            try
+            {
+                using (var dbContext = contextProvider.CreateDbContext(loggerFactory))
+                {
+                    return dbContext.Database.MigrateAsync(cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                var logger = serviceProvider.GetService<Logger<IHost>>();
+                if (logger != null)
+                    logger.LogCritical(ex, "DB migration failure");
+                throw;
+            }
         }
     }
 }
