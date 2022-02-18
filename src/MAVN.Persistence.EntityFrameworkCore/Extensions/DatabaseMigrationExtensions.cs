@@ -50,7 +50,7 @@ namespace MAVN.Persistence
             }
             catch (Exception ex)
             {
-                var logger = serviceProvider.GetService<Logger<IHost>>();
+                var logger = loggerFactory.CreateLogger<IServiceProvider>();
                 if (logger != null)
                     logger.LogCritical(ex, "DB migration failure");
                 throw;
@@ -59,7 +59,7 @@ namespace MAVN.Persistence
             return serviceProvider;
         }
 
-        public static Task MigrateDatabaseAsync(
+        public static async Task MigrateDatabaseAsync(
             this IServiceProvider serviceProvider,
             ILoggerFactory? loggerFactory = null,
             CancellationToken cancellationToken = default)
@@ -71,12 +71,12 @@ namespace MAVN.Persistence
             {
                 using (var dbContext = contextProvider.CreateDbContext(loggerFactory))
                 {
-                    return dbContext.Database.MigrateAsync(cancellationToken);
+                    await dbContext.Database.MigrateAsync(cancellationToken);
                 }
             }
             catch (Exception ex)
             {
-                var logger = serviceProvider.GetService<Logger<IHost>>();
+                var logger = loggerFactory.CreateLogger<IServiceProvider>();
                 if (logger != null)
                     logger.LogCritical(ex, "DB migration failure");
                 throw;

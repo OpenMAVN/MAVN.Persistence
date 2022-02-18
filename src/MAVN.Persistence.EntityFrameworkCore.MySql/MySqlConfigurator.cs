@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace MAVN.Persistence.EntityFrameworkCore.MySql
 {
@@ -18,6 +19,7 @@ namespace MAVN.Persistence.EntityFrameworkCore.MySql
                     options.EnableRetryOnFailure(dbContextSettings.RetriesCount);
                 if (dbContextSettings.MigrationsAssemblyName != null)
                     options.MigrationsAssembly(dbContextSettings.MigrationsAssemblyName);
+                options.SchemaBehavior(MySqlSchemaBehavior.Translate, (schema, entity) => $"{schema ?? "dbo"}_{entity}");
             });
         }
     }
