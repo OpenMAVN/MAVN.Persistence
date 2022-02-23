@@ -12,15 +12,17 @@ namespace MAVN.Persistence.EntityFrameworkCore.MySql
         {
             optionsBuilder.UseMySql(dbContextSettings.ConnectionString, options =>
             {
-                var migrationsTable = $"{dbContextSettings.SchemaName ?? "dbo"}_{HistoryRepository.DefaultTableName}";
                 options
-                    .MigrationsHistoryTable(migrationsTable, dbContextSettings.SchemaName)
+                    .MigrationsHistoryTable(HistoryRepository.DefaultTableName, dbContextSettings.SchemaName)
                     .CommandTimeout(dbContextSettings.CommandTimeout);
                 if (dbContextSettings.RetriesCount > 0)
                     options.EnableRetryOnFailure(dbContextSettings.RetriesCount);
                 if (dbContextSettings.MigrationsAssemblyName != null)
                     options.MigrationsAssembly(dbContextSettings.MigrationsAssemblyName);
-                options.SchemaBehavior(MySqlSchemaBehavior.Translate, (schema, entity) => $"{schema ?? "dbo"}_{entity}");
+                options.SchemaBehavior(MySqlSchemaBehavior.Translate, (schema, entity) =>
+                    entity == HistoryRepository.DefaultTableName
+                    ? entity
+                    : $"{schema ?? "dbo"}_{entity}");
             });
         }
     }
