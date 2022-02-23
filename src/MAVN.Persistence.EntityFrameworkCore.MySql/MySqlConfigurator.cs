@@ -12,8 +12,9 @@ namespace MAVN.Persistence.EntityFrameworkCore.MySql
         {
             optionsBuilder.UseMySql(dbContextSettings.ConnectionString, options =>
             {
+                var migrationsTable = $"{dbContextSettings.SchemaName ?? "dbo"}_{HistoryRepository.DefaultTableName}";
                 options
-                    .MigrationsHistoryTable(HistoryRepository.DefaultTableName, dbContextSettings.SchemaName)
+                    .MigrationsHistoryTable(migrationsTable, dbContextSettings.SchemaName)
                     .CommandTimeout(dbContextSettings.CommandTimeout);
                 if (dbContextSettings.RetriesCount > 0)
                     options.EnableRetryOnFailure(dbContextSettings.RetriesCount);
