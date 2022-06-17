@@ -24,7 +24,7 @@ namespace MAVN.Persistence
                 && mi.GetParameters()[0].ParameterType.GenericTypeArguments[1].IsGenericParameter);
         private static readonly MethodInfo ThenIncludeAfterEnumerableMethodInfo =
             typeof(EntityFrameworkQueryableExtensions)
-            .GetTypeInfo().GetDeclaredMethods("ThenInclude")
+            .GetTypeInfo().GetDeclaredMethods(nameof(ThenInclude))
             .Where(mi => mi.GetGenericArguments().Count() == 3)
             .Single(mi =>
                 {

@@ -60,13 +60,12 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             await uow.CompleteAsync();
 
             using var uow2 = dataContext.BeginUnitOfWork();
-            var dataSet2 = uow.DataSet<TestEntity>();
-            var spec = Specification.For<TestEntity>();
+            var dataSet2 = uow2.DataSet<TestEntity>();
             var fetchSpec = FetchSpecification.For<TestEntity>()
                 .Include(i => i.Child)
                 .Include(i => i.Children);
 
-            var items = await dataSet.FindAsync(spec, fetchSpec);
+            var items = await dataSet2.FindAsync(null, fetchSpec);
 
             Assert.True(items.Count() > 0);
             Assert.NotNull(items.First().Child);
@@ -112,21 +111,21 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             await uow.CompleteAsync();
 
             using var uow2 = dataContext.BeginUnitOfWork();
-            var dataSet2 = uow.DataSet<TestEntity>();
-            var spec = Specification.For<TestEntity>();
+            var dataSet2 = uow2.DataSet<TestEntity>();
             var fetchSpec = FetchSpecification.For<TestEntity>()
                 .Include(i => i.Child)
                     .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren)
                 .Include(i => i.Children)
                     .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
 
-            var items = await dataSet.FindAsync(spec, fetchSpec);
+            var items = await dataSet2.FindAsync(null, fetchSpec);
 
             Assert.True(items.Count() > 0);
-            Assert.NotNull(items.First().Child);
-            Assert.True(items.First().Child.GrandChildren.Count > 0);
-            Assert.True(items.First().Children.Count > 0);
-            Assert.True(items.First().Children.First().GrandChildren.Count > 0);
+            var first = items.First();
+            Assert.NotNull(first.Child);
+            Assert.True(first.Child.GrandChildren.Count > 0);
+            Assert.True(first.Children.Count > 0);
+            Assert.True(first.Children.First().GrandChildren.Count > 0);
         }
     }
 }
