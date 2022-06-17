@@ -24,5 +24,15 @@ namespace MAVN.Persistence
         {
             throw new System.NotImplementedException();
         }
+
+        public void SaveChanges()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task SaveChangesAsync()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

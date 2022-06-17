@@ -2,6 +2,6 @@ namespace MAVN.Persistence
 {
     public interface IDataContext
     {
-        IUnitOfWork BeginUnitOfWork(bool enableLogging = false);
+        IUnitOfWork BeginUnitOfWork(bool withTransaction = false, bool enableLogging = false);
     }
 }
