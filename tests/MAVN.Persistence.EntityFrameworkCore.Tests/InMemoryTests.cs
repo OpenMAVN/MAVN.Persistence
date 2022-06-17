@@ -114,8 +114,6 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             var dataSet2 = uow2.DataSet<TestEntity>();
             var fetchSpec = FetchSpecification.For<TestEntity>()
                 .Include(i => i.Child)
-                    .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren)
-                .Include(i => i.Children)
                     .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
 
             var items = await dataSet2.FindAsync(null, fetchSpec);
@@ -124,6 +122,15 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             var first = items.First();
             Assert.NotNull(first.Child);
             Assert.True(first.Child.GrandChildren.Count > 0);
+
+            fetchSpec = FetchSpecification.For<TestEntity>()
+                .Include(i => i.Children)
+                    .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
+
+            items = await dataSet2.FindAsync(null, fetchSpec);
+
+            Assert.True(items.Count() > 0);
+            first = items.First();
             Assert.True(first.Children.Count > 0);
             Assert.True(first.Children.First().GrandChildren.Count > 0);
         }
