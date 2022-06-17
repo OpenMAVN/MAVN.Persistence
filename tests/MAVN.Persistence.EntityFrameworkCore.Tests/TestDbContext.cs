@@ -17,10 +17,10 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
         {
             var entity = modelBuilder.Entity<TestEntity>();
             entity.HasOne(i => i.Child);
-            entity.HasMany(i => i.Children);
+            entity.HasMany(i => i.Children).WithOne().HasForeignKey(i => i.TestEntityId);
 
             var childEntity = modelBuilder.Entity<TestChildEntity>();
-            childEntity.HasMany(i => i.GrandChildren);
+            childEntity.HasMany(i => i.GrandChildren).WithOne().HasForeignKey(i => i.TestChildEntityId);
         }
     }
 }

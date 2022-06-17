@@ -73,7 +73,7 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
         }
 
         [Fact]
-        public async Task ThenIncludeTest()
+        public async Task IncludeSingleThenIncludeTest()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDataContext(c =>
@@ -96,6 +96,41 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
                         new TestGrandChildEntity(),
                     }
                 },
+            };
+            dataSet.Add(testEntity);
+            await uow.CompleteAsync();
+
+            using var uow2 = dataContext.BeginUnitOfWork();
+            var dataSet2 = uow2.DataSet<TestEntity>();
+            var fetchSpec = FetchSpecification.For<TestEntity>()
+                .Include(i => i.Child)
+                    .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
+
+            var items = await dataSet2.FindAsync(null, fetchSpec);
+
+            Assert.True(items.Count() > 0);
+            var first = items.First();
+            Assert.NotNull(first.Child);
+            Assert.True(first.Child.GrandChildren.Count > 0);
+        }
+
+        [Fact]
+        public async Task IncludeCollectionThenIncludeTest()
+        {
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddDataContext(c =>
+            {
+                c.UseEntityFrameworkInMemory()
+                    .WithDbContext<TestDbContext>()
+                    .WithSchemaName("tests");
+            });
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var dataContext = serviceProvider.GetRequiredService<IDataContext>();
+
+            using var uow = dataContext.BeginUnitOfWork();
+            var dataSet = uow.DataSet<TestEntity>();
+            var testEntity = new TestEntity
+            {
                 Children = new List<TestChildEntity>
                 {
                     new TestChildEntity
@@ -113,8 +148,6 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             using var uow2 = dataContext.BeginUnitOfWork();
             var dataSet2 = uow2.DataSet<TestEntity>();
             var fetchSpec = FetchSpecification.For<TestEntity>()
-                .Include(i => i.Child)
-                    .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren)
                 .Include(i => i.Children)
                     .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
 
@@ -122,8 +155,6 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
 
             Assert.True(items.Count() > 0);
             var first = items.First();
-            Assert.NotNull(first.Child);
-            Assert.True(first.Child.GrandChildren.Count > 0);
             Assert.True(first.Children.Count > 0);
             Assert.True(first.Children.First().GrandChildren.Count > 0);
         }
