@@ -9,8 +9,9 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
 {
     public class InMemoryTests
     {
-        [Fact]
-        public async Task MultipleWhereConditionsTest()
+        private IDataContext _dataContext;
+
+        public InMemoryTests()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddDataContext(c =>
@@ -20,8 +21,13 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
                     .WithSchemaName("tests");
             });
             var serviceProvider = serviceCollection.BuildServiceProvider();
-            var dataContext = serviceProvider.GetRequiredService<IDataContext>();
-            using var uow = dataContext.BeginUnitOfWork();
+            _dataContext = serviceProvider.GetRequiredService<IDataContext>();
+        }
+
+        [Fact]
+        public async Task MultipleWhereConditionsTest()
+        {
+            using var uow = _dataContext.BeginUnitOfWork();
             var dataSet = uow.DataSet<TestEntity>();
             var spec = Specification.For<TestEntity>()
                 .Where(i => i.Id > 0)
@@ -36,17 +42,7 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
         [Fact]
         public async Task IncludeTest()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddDataContext(c =>
-            {
-                c.UseEntityFrameworkInMemory()
-                    .WithDbContext<TestDbContext>()
-                    .WithSchemaName("tests");
-            });
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var dataContext = serviceProvider.GetRequiredService<IDataContext>();
-
-            using var uow = dataContext.BeginUnitOfWork();
+            using var uow = _dataContext.BeginUnitOfWork();
             var dataSet = uow.DataSet<TestEntity>();
             var testEntity = new TestEntity
             {
@@ -59,13 +55,15 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             dataSet.Add(testEntity);
             await uow.CompleteAsync();
 
-            using var uow2 = dataContext.BeginUnitOfWork();
+            using var uow2 = _dataContext.BeginUnitOfWork();
             var dataSet2 = uow2.DataSet<TestEntity>();
+            var spec = Specification.For<TestEntity>()
+                .Where(i => i.Id == testEntity.Id);
             var fetchSpec = FetchSpecification.For<TestEntity>()
                 .Include(i => i.Child)
                 .Include(i => i.Children);
 
-            var items = await dataSet2.FindAsync(null, fetchSpec);
+            var items = await dataSet2.FindAsync(spec, fetchSpec);
 
             Assert.True(items.Count() > 0);
             Assert.NotNull(items.First().Child);
@@ -75,17 +73,7 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
         [Fact]
         public async Task IncludeSingleThenIncludeTest()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddDataContext(c =>
-            {
-                c.UseEntityFrameworkInMemory()
-                    .WithDbContext<TestDbContext>()
-                    .WithSchemaName("tests");
-            });
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var dataContext = serviceProvider.GetRequiredService<IDataContext>();
-
-            using var uow = dataContext.BeginUnitOfWork();
+            using var uow = _dataContext.BeginUnitOfWork();
             var dataSet = uow.DataSet<TestEntity>();
             var testEntity = new TestEntity
             {
@@ -100,13 +88,15 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             dataSet.Add(testEntity);
             await uow.CompleteAsync();
 
-            using var uow2 = dataContext.BeginUnitOfWork();
+            using var uow2 = _dataContext.BeginUnitOfWork();
             var dataSet2 = uow2.DataSet<TestEntity>();
+            var spec = Specification.For<TestEntity>()
+                .Where(i => i.Id == testEntity.Id);
             var fetchSpec = FetchSpecification.For<TestEntity>()
                 .Include(i => i.Child)
                     .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
 
-            var items = await dataSet2.FindAsync(null, fetchSpec);
+            var items = await dataSet2.FindAsync(spec, fetchSpec);
 
             Assert.True(items.Count() > 0);
             var first = items.First();
@@ -117,17 +107,7 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
         [Fact]
         public async Task IncludeCollectionThenIncludeTest()
         {
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddDataContext(c =>
-            {
-                c.UseEntityFrameworkInMemory()
-                    .WithDbContext<TestDbContext>()
-                    .WithSchemaName("tests");
-            });
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-            var dataContext = serviceProvider.GetRequiredService<IDataContext>();
-
-            using var uow = dataContext.BeginUnitOfWork();
+            using var uow = _dataContext.BeginUnitOfWork();
             var dataSet = uow.DataSet<TestEntity>();
             var testEntity = new TestEntity
             {
@@ -145,13 +125,15 @@ namespace MAVN.Persistence.EntityFrameworkCore.Tests
             dataSet.Add(testEntity);
             await uow.CompleteAsync();
 
-            using var uow2 = dataContext.BeginUnitOfWork();
+            using var uow2 = _dataContext.BeginUnitOfWork();
             var dataSet2 = uow2.DataSet<TestEntity>();
+            var spec = Specification.For<TestEntity>()
+                .Where(i => i.Id == testEntity.Id);
             var fetchSpec = FetchSpecification.For<TestEntity>()
                 .Include(i => i.Children)
                     .ThenInclude<TestEntity, TestChildEntity, ICollection<TestGrandChildEntity>>(i => i.GrandChildren);
 
-            var items = await dataSet2.FindAsync(null, fetchSpec);
+            var items = await dataSet2.FindAsync(spec, fetchSpec);
 
             Assert.True(items.Count() > 0);
             var first = items.First();
