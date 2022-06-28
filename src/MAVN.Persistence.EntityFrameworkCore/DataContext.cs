@@ -20,10 +20,10 @@ namespace MAVN.Persistence
             _loggerFatory = loggerFatory;
         }
 
-        public IUnitOfWork BeginUnitOfWork(bool withTransaction = false, bool enableLogging = false)
+        public IUnitOfWork BeginUnitOfWork(bool enableLogging = false)
         {
             var dbContext = _dbContextProvider.CreateDbContext(enableLogging ? _loggerFatory : null);
-            return new UnitOfWork(dbContext, withTransaction);
+            return new UnitOfWork(dbContext);
         }
     }
 }

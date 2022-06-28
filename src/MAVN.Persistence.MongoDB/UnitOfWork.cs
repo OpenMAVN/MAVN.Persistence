@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace MAVN.Persistence
@@ -9,30 +10,40 @@ namespace MAVN.Persistence
             throw new System.NotImplementedException();
         }
 
-        public void Complete()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task CompleteAsync()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IDataSet<TEntity> DataSet<TEntity>()
+       public IDataSet<TEntity> DataSet<TEntity>()
             where TEntity : class
         {
             throw new System.NotImplementedException();
         }
 
-        public void SaveChanges()
+        public void Complete()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
-        public Task SaveChangesAsync()
+        public Task CompleteAsync()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public void ExecuteWithTransaction(Action<Action> action)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T ExecuteWithTransaction<T>(Func<Action, T> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ExecuteWithTransactionAsync(Func<Func<Task>, Task> func)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<T> ExecuteWithTransactionAsync<T>(Func<Func<Task>, Task<T>> func)
+        {
+            throw new NotImplementedException();
         }
     }
 }

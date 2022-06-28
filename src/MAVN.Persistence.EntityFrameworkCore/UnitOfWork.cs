@@ -1,47 +1,116 @@
+using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace MAVN.Persistence
 {
     public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly EfDbContext _dbContext;
-        private readonly IDbContextTransaction? _dbContextTransaction;
 
-        internal UnitOfWork(EfDbContext dbContext, bool withTransaction)
+        internal UnitOfWork(EfDbContext dbContext)
         {
             _dbContext = dbContext;
-            if (withTransaction)
-                _dbContextTransaction = _dbContext.Database.BeginTransaction();
         }
 
         public void Dispose()
         {
-            _dbContextTransaction?.Dispose();
             _dbContext.Dispose();
-        }
-
-        public void SaveChanges()
-        {
-            _dbContext.SaveChanges();
         }
 
         public void Complete()
         {
             _dbContext.SaveChanges();
-            _dbContextTransaction?.Commit();
-        }
-
-        public Task SaveChangesAsync()
-        {
-            return _dbContext.SaveChangesAsync();
         }
 
         public async Task CompleteAsync()
         {
             await _dbContext.SaveChangesAsync();
-            if (_dbContextTransaction != null)
-                await _dbContextTransaction.CommitAsync();
+        }
+
+        public void ExecuteWithTransaction(Action<Action> action)
+        {
+            var executionStrategy = _dbContext.Database.CreateExecutionStrategy();
+            executionStrategy.Execute<object?, object?>(
+                state: null,
+                operation: (ctx, state) =>
+                {
+                    using (var transaction = _dbContext.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            action(() => _dbContext.SaveChanges());
+
+                            transaction.Commit();
+
+                            return null;
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+
+                            throw;
+                        }
+                    }
+                },
+                verifySucceeded: null);
+        }
+
+        public T ExecuteWithTransaction<T>(Func<Action, T> action)
+        {
+            var executionStrategy = _dbContext.Database.CreateExecutionStrategy();
+            return executionStrategy.Execute<object?, T>(
+                state: null,
+                operation: (ctx, state) =>
+                {
+                    using (var transaction = _dbContext.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            var result = action(() => _dbContext.SaveChanges());
+
+                            transaction.Commit();
+
+                            return result;
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+
+                            throw;
+                        }
+                    }
+                },
+                verifySucceeded: null);
+        }
+
+        public async Task ExecuteWithTransactionAsync(Func<Func<Task>, Task> func)
+        {
+            var strategy = _dbContext.Database.CreateExecutionStrategy();
+            await strategy.ExecuteAsync<object?, object?>(
+                state: null,
+                operation: async (ctx, state, ct) =>
+                {
+                    await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+                    await func(async () => await _dbContext.SaveChangesAsync());
+                    await transaction.CommitAsync();
+                    return null;
+                },
+                verifySucceeded: null);
+        }
+
+        public async Task<T> ExecuteWithTransactionAsync<T>(Func<Func<Task>, Task<T>> func)
+        {
+            var strategy = _dbContext.Database.CreateExecutionStrategy();
+            return await strategy.ExecuteAsync<object?, T>(
+                state: null,
+                operation: async (ctx, state, ct) =>
+                {
+                    await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+                    var result = await func(async () => await _dbContext.SaveChangesAsync());
+                    await transaction.CommitAsync();
+                    return result;
+                },
+                verifySucceeded: null);
         }
 
         public IDataSet<TEntity> DataSet<TEntity>()
