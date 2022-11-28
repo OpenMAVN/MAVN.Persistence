@@ -10,7 +10,7 @@ namespace MAVN.Persistence.EntityFrameworkCore.MySql
             DbContextOptionsBuilder optionsBuilder,
             DbContextSettings dbContextSettings)
         {
-            optionsBuilder.UseMySql(dbContextSettings.ConnectionString, options =>
+            optionsBuilder.UseMySql(dbContextSettings.ConnectionString, ServerVersion.AutoDetect(dbContextSettings.ConnectionString), options =>
             {
                 options
                     .MigrationsHistoryTable(HistoryRepository.DefaultTableName, dbContextSettings.SchemaName)
