@@ -132,10 +132,6 @@ namespace MAVN.Persistence.PostgreSQL.Legacy
                 });
             }
 
-#pragma warning disable 618
-            optionsBuilder.ConfigureWarnings(warnings => warnings.Throw(RelationalEventId.QueryClientEvaluationWarning));
-#pragma warning restore 618
-
             OnMAVNConfiguring(optionsBuilder);
 
             base.OnConfiguring(optionsBuilder);
